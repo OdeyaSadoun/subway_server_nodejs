@@ -28,3 +28,13 @@ exports.userSchemaValidate = (_reqBody) => {
 
   return userValidate.validate(_reqBody);
 };
+
+exports.userLoginValidate = (_reqBody) => {
+    let userValidate = Joi.object({
+      username: Joi.string().min(3).max(30).alphanum().required(),
+      password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")).required(),
+    })
+
+    return userValidate.validate(_reqBody);
+  };
+  
