@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 
-let usersSchema = mongoose.Schema({
+let userSchema = mongoose.Schema({
     first_name: String,
     last_name: String,
+    username: String,
     id_card: String,
     phone: String,
     birth_date: Date,
@@ -18,4 +19,4 @@ let usersSchema = mongoose.Schema({
     num_house: String
 });
 
-exports.UsersModel = mongoose.model("users", usersSchema);
+exports.UserModel = mongoose.model("users", userSchema);
