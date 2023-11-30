@@ -30,9 +30,7 @@ const { config } = require("../config/secret");
 // });
 
 let userSchema = new mongoose.Schema({
-  first_name: String,
-  last_name: String,
-  username: String,
+  name: String,
   email: String,
   password: String,
   date_created: {

@@ -8,23 +8,6 @@ const {
 const { auth, authAdmin } = require("../middleware/auth");
 const router = express.Router();
 
-// router.get("/", async (req, res) => {
-//   let perPage = Math.min(req.query.perPage, 20) || 4;
-//   let page = req.query.page || 1;
-//   let sort = req.query.sort || "_id";
-//   let reverse = req.query.reverse == "yes" ? -1 : 1;
-//   try {
-//     let users = await UserModel.find({})
-//       .limit(perPage)
-//       .skip((page - 1) * perPage)
-//       .sort({ [sort]: reverse });
-//     res.json(users);
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ msg: "err", err });
-//   }
-// });
-
 router.get("/", async (req, res) => {
   res.json({ msg: "Users work" });
 });
@@ -80,7 +63,7 @@ router.post("/login", async (req, res) => {
     return res.status(400).json(validBody.error.details);
   }
   try {
-    let user = await UserModel.findOne({ username: req.body.username });
+    let user = await UserModel.findOne({ email: req.body.email });
     if (!user) {
       return res
         .status(401)
