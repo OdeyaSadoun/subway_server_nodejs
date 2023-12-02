@@ -8,9 +8,19 @@ router.get("/", (req, res) => {
   res.json({ msg: "travels work project 3" });
 });
 
-router.get("/travelsList", authAdmin, async (req, res) => {
+router.get("/allTravelsList", authAdmin, async (req, res) => {
   try {
     let data = await TravelModel.find({});
+    res.json(data);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "err", err });
+  }
+});
+
+router.get("/travelsUserList", auth, async (req, res) => {
+  try {
+    let data = await TravelModel.find({user_id: req.tokenData._id});
     res.json(data);
   } catch (err) {
     console.log(err);
