@@ -3,7 +3,10 @@ const mongoose = require("mongoose");
 let travelSchema = new mongoose.Schema({
   user_id: String,
   train_name: String,
-  payment_type: String,
+  ticket: {
+    payment_type: String,
+    price: Number
+  },
   date_travel: {
     type: Date,
     default: Date.now(),
