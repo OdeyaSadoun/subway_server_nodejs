@@ -155,11 +155,11 @@ router.delete("/:idDelete", auth, async (req, res) => {
         user_id: req.tokenData._id,
       });
     }
-    // if (!(res.deletedCount == 1)) {
-    //   return res
-    //     .status(400)
-    //     .json({ msg: "you cannot delete somthing you not add" });
-    // }
+    if (!(res.deletedCount == 1)) {
+      return res
+        .status(400)
+        .json({ msg: "you cannot delete somthing you not add" });
+    }
     res.json(data);
   } catch (err) {
     console.log(err);
