@@ -74,6 +74,28 @@ router.get("/search", auth, async (req, res) => {
   }
 });
 
+router.get("/searchByPriceRange", auth, async (req, res) => {
+  const minPrice = req.query.min;
+  const maxPrice = req.query.max;
+  let sort = req.query.sort || "ticket.price";
+  let reverse = req.query.reverse == "yes" ? -1 : 1;
+
+
+  try {
+    let data = await TravelModel.find({
+      'ticket.price': { $gte: minPrice, $lte: maxPrice },
+      user_id: req.tokenData._id,
+    }) .sort({ [sort]: reverse });
+
+    console.log("data", data);
+    res.json(data);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "Error occurred", error: err });
+  }
+});
+
+
 router.post("/", auth, async (req, res) => {
   let validBody = travelSchemaValidate(req.body);
   if (validBody.error) {
