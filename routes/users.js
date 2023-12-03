@@ -83,4 +83,34 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.put("/:idEdit", auth, async (req, res) => {
+  let idEdit = req.params.idEdit;
+  let validBody = userSchemaValidate(req.body);
+  if (validBody.error) {
+    return res.status(400).json(validBody.error.details);
+  }
+  try{
+
+    console.log(req.tokenData);
+    let data;
+    if (req.tokenData.role == "admin") {
+      req.body.password = await bcrypt.hash(req.body.password, 10)
+      data = await UserModel.updateOne({ _id: idEdit }, req.body);
+    }
+    else if (idEdit == req.tokenData._id) {
+      req.body.password = await bcrypt.hash(req.body.password, 10)
+      data = await UserModel.updateOne({ _id: idEdit }, req.body);
+    }
+    else {
+      data = [{ status: "failed", msg: "You are trying to do an operation that is not enabled!" }]
+    }
+    res.json(data);
+
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).json({ err })
+  }
+})
+
 module.exports = router;
