@@ -58,6 +58,8 @@ router.get("/single/:idTravel", auth, async (req, res) => {
 router.get("/search", auth, async (req, res) => {
   let searchPrice = req.query.price;
   let searchPaymentType = req.query.payment_type;
+  let sort = req.query.sort || "ticket.price";
+  let reverse = req.query.reverse == "yes" ? -1 : 1;
 
   try {
     let data = await TravelModel.find({
@@ -66,7 +68,7 @@ router.get("/search", auth, async (req, res) => {
         { "ticket.payment_type": { $eq: searchPaymentType } },
       ],
       user_id: req.tokenData._id,
-    });
+    }).sort({ [sort]: reverse });
     res.json(data);
   } catch (err) {
     console.log(err);
