@@ -111,6 +111,29 @@ router.put("/:idEdit", auth, async (req, res) => {
     console.log(err);
     res.status(500).json({ err })
   }
-})
+});
+
+router.delete("/:idDelete", auth, async (req, res) => {
+  console.log("delete");
+  let idDelete = req.params.idDelete;
+  try{
+    let data;
+    if (req.tokenData.role == "admin") {
+      data = await UserModel.deleteOne({ _id: idDelete });
+    }
+    else if (idDelete == req.tokenData._id) {
+      data = await UserModel.deleteOne({ _id: idDelete });
+    }
+    else {
+      data = [{ status: "failed", msg: "You are trying to do an operation that is not enabled!" }]
+    }
+    res.json(data);
+
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).json({ err })
+  }
+});
 
 module.exports = router;
