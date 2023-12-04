@@ -130,7 +130,12 @@ router.put("/:idEdit", auth, async (req, res) => {
         req.body
       );
     }
-    if (!(res.modfiedCount == 1)) {
+    let countM = res.modfiedCount;
+    console.log("mod",res.modfiedCount);
+    console.log("mod",res.matchedCount);
+
+    console.log(countM);
+    if ((data.modifiedCount != 1)) {
       return res
         .status(400)
         .json({ msg: "you cannot edit somthing you not add" });
@@ -155,7 +160,7 @@ router.delete("/:idDelete", auth, async (req, res) => {
         user_id: req.tokenData._id,
       });
     }
-    if (!(res.deletedCount == 1)) {
+    if (!(data.deletedCount == 1)) {
       return res
         .status(400)
         .json({ msg: "you cannot delete somthing you not add" });
